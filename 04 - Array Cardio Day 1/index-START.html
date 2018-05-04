@@ -8,7 +8,7 @@
   <p><em>Psst: have a look at the JavaScript Console</em> 💁</p>
   <script>
     // Get your shorts on - this is an array workout!
-    // ## Array Cardio Day 1
+    // ## Array Cardio Day 1.
 
     // Some data we can work with
 
@@ -31,28 +31,80 @@
 
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
+    const fifteen = inventors.filter(function(inventor) {
+      if (inventor.year >= 1500 && inventor.year <= 1600) {
+        return true;
+      }
+    });
+    console.table(fifteen);
 
     // Array.prototype.map()
     // 2. Give us an array of the inventors' first and last names
+    const fullNames = inventors.map(function(inventor) {
+      return `${inventor.first} ${inventor.last}`;
+    });
+    console.log(fullNames);
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+    const ordered = inventors.sort(function(firstInventor, secondInventor) {
+      if (firstInventor.year > secondInventor.year) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+    console.table(ordered);
+    
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live?
+    const totalYears = inventors.reduce(function(total, inventor) {
+      return total + (inventor.passed - inventor.year);
+    }, 0);
+    console.log(totalYears);
 
     // 5. Sort the inventors by years lived
+    const oldests = inventors.sort(function(a, b) {
+      const lastPerson = a.passed - a.year;
+      const nextPerson = b.passed - b.year;
+      return lastPerson > nextPerson ? -1 : 1;
+    });
+    console.table(oldests);
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
-
+    // const category = document.querySelector('.mw-category');
+    // const links = Array.from(category.querySelectorAll('a'));
+    // const de = links
+    //   .map(function(link) {
+    //     return link.textContent;
+    //   })
+    //   .filter(function(streeName) {
+    //     return streeName.includes('de');
+    //   });
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    const alphabetic = people.sort(function(lastOne, nextOne) {
+      const [lastSurname, lastName] = lastOne.split(', ');
+      const [nextSurname, nextName] = nextOne.split(', ');
+      return lastSurname > nextSurname ? 1 : -1;
+    });
+    console.log(alphabetic);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+
+    const transportations = data.reduce(function(obj, item) {
+      if (!obj[item]) {
+        obj[item] = 0;
+      }
+      obj[item]++;
+      return obj;
+    }, {});
+    console.log(transportations);
 
   </script>
 </body>

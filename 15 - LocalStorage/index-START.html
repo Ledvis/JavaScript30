@@ -30,6 +30,31 @@
   const itemsList = document.querySelector('.plates');
   const items = [];
 
+  const populateList = function(plates = [], platesList) {
+    platesList.innerHTML = plates.map(function(plate, i) {
+      return `
+        <li>
+          <input type="checkbox" data-index="${i}" id="${i}" ${plate.done ? 'checked' : ''}/>
+          <label for="${i}">${plate.text}</label>  
+        </li>
+      `
+    }).join(''); 
+  };
+
+  const addItem = function(evt) {
+    evt.preventDefault();
+
+    const text = this.querySelector('input[name="item"]').value;
+    const item = {
+      text: text,
+      done: false
+    } 
+    items.push(item);
+    populateList(items, itemsList);
+    this.reset();
+  };
+    
+  addItems.addEventListener('submit', addItem);
 </script>
 
 

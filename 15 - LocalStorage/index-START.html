@@ -22,13 +22,17 @@
     <form class="add-items">
       <input type="text" name="item" placeholder="Item Name" required>
       <input type="submit" value="+ Add Item">
+      <button class="btn btn-check">Check all</button>
+      <button class="btn btn-uncheck">Uncheck all</button>
+      <button class="btn btn-reset" type="reset">Reset</button>
     </form>
   </div>
 
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  const items = JSON.parse(localStorage.getItem('items')) || [];
+  const buttons = document.querySelectorAll('.btn');
 
   const populateList = function(plates = [], platesList) {
     platesList.innerHTML = plates.map(function(plate, i) {
@@ -51,10 +55,40 @@
     } 
     items.push(item);
     populateList(items, itemsList);
+    localStorage.setItem('items', JSON.stringify(items));
     this.reset();
   };
     
   addItems.addEventListener('submit', addItem);
+  populateList(items, itemsList);
+
+  const toggleDone = function(evt) {
+    const el = evt.target;
+
+    if (!el.matches('input')) return;
+    
+    const index = el.dataset.index;
+    items[index].done = !items[index].done;
+    localStorage.setItem('items', JSON.stringify(items));
+  };
+  
+  itemsList.addEventListener('click', toggleDone);
+
+  const onButtonClick = function(evt) {
+    if (evt.target.classList.contains('btn-reset')) {
+      while (itemsList.firstChild) {
+        itemsList.removeChild(itemsList.firstChild);
+      }
+      localStorage.removeItem('items');
+    } else if (evt.target.classList.contains('btn-check')) {
+      evt.preventDefault();
+      [].forEach.call(itemsList, function(item) {
+        item.checked = true;
+      });
+    }
+  };
+
+  buttons.forEach(button => button.addEventListener('click', onButtonClick));
 </script>
 
 

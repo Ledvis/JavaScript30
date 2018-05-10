@@ -68,6 +68,9 @@
     }
 
     .add-items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
       margin-top: 20px;
     }
 
@@ -75,4 +78,9 @@
       padding:10px;
       outline:0;
       border:1px solid rgba(0,0,0,0.1);
+    }
+
+    .add-items button {
+      flex-grow: 1;
+      width: 30%;
     }

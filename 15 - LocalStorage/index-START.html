@@ -22,8 +22,8 @@
     <form class="add-items">
       <input type="text" name="item" placeholder="Item Name" required>
       <input type="submit" value="+ Add Item">
-      <button class="btn btn-check">Check all</button>
-      <button class="btn btn-uncheck">Uncheck all</button>
+      <button class="btn btn-check" disabled>Check all</button>
+      <button class="btn btn-uncheck" disabled>Uncheck all</button>
       <button class="btn btn-reset" type="reset">Reset</button>
     </form>
   </div>
@@ -33,6 +33,8 @@
   const itemsList = document.querySelector('.plates');
   const items = JSON.parse(localStorage.getItem('items')) || [];
   const buttons = document.querySelectorAll('.btn');
+  const buttonCheck = document.querySelector('.btn-check');
+  const buttonUncheck = document.querySelector('.btn-uncheck');
 
   const populateList = function(plates = [], platesList) {
     platesList.innerHTML = plates.map(function(plate, i) {
@@ -56,6 +58,8 @@
     items.push(item);
     populateList(items, itemsList);
     localStorage.setItem('items', JSON.stringify(items));
+    buttonCheck.disabled = false;
+    buttonUncheck.disabled = false;
     this.reset();
   };
     
@@ -80,11 +84,15 @@
         itemsList.removeChild(itemsList.firstChild);
       }
       localStorage.removeItem('items');
+      localStorage.clear();
+      buttonCheck.disabled = true;
+      buttonUncheck.disabled = true;
     } else if (evt.target.classList.contains('btn-check')) {
       evt.preventDefault();
-      [].forEach.call(itemsList, function(item) {
-        item.checked = true;
-      });
+      // [].forEach.call(itemsList, function(item) {
+      //   item.checked = true;
+      // });
+      itemsList.forEach(item => console.log(item));
     }
   };
 

@@ -83,16 +83,31 @@
       while (itemsList.firstChild) {
         itemsList.removeChild(itemsList.firstChild);
       }
+      while (items.length > 0) {
+        items.pop();
+      }
       localStorage.removeItem('items');
       localStorage.clear();
       buttonCheck.disabled = true;
       buttonUncheck.disabled = true;
     } else if (evt.target.classList.contains('btn-check')) {
       evt.preventDefault();
-      // [].forEach.call(itemsList, function(item) {
-      //   item.checked = true;
-      // });
-      itemsList.forEach(item => console.log(item));
+
+      for (let i = 0; itemsList.children.length > i; i++) {
+        itemsList.children[i].children[0].checked = true;
+        items[i].done = true;
+      }
+
+      localStorage.setItem('items', JSON.stringify(items));
+    } else if (evt.target.classList.contains('btn-uncheck')) {
+      evt.preventDefault();
+
+      for (let i = 0; itemsList.children.length > i; i++) {
+        itemsList.children[i].children[0].checked = false;
+        items[i].done = false;
+      }
+      
+      localStorage.setItem('items', JSON.stringify(items));
     }
   };
 

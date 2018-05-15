@@ -1,3 +1,5 @@
+import { createGzip } from "zlib";
+
 const video = document.querySelector('.player');
 const canvas = document.querySelector('.photo');
 const ctx = canvas.getContext('2d');
@@ -15,6 +17,16 @@ const getVideo = function() {
     });
 };
 
+const redEffect = function(pixels) {
+  for (let i = 0; i < pixels.data.lenght; i += 4) {
+    pixels.data[i + 0] += 100; // RED
+    pixels.data[i + 1] -= 50; // GREEN
+    pixels.data[i + 2] *= 0,5; // BLUE
+  };
+
+  return pixels;
+};
+
 const paintOnCanvas = function() {
   const width = video.videoWidth;
   const height = video.videoHeight;
@@ -24,7 +36,8 @@ const paintOnCanvas = function() {
   return setInterval(() => {
     ctx.drawImage(video, 0, 0, width, height);
     let pixels = ctx.getImageData(0, 0, width, height);
-    console.log(pixels);
+    redEffect(pixels);
+    ctx.putImageData(pixels, 0, 0);
   }, 16);
 };
 

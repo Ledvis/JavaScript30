@@ -39,7 +39,13 @@
 
 <button></button>
 <script>
+  const btn = document.querySelector('button');
 
+  btn.addEventListener('click', () => {
+    console.log('hello');
+  }, {
+    once: true
+  });
 </script>
 </body>
 </html>

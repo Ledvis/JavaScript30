@@ -221,6 +221,43 @@
 </style>
 
 <script>
+  const triggers = document.querySelectorAll('.cool > li');
+  const background = document.querySelector('.dropdownBackground');
+  const nav = document.querySelector('.top');
+
+  const handleMouseEnter = function(evt) {
+    this.classList.add('trigger-enter');
+    if (this.classList.contains('trigger-enter')) {
+      setTimeout(() => this.classList.add('trigger-enter-active'), 150);
+    }
+
+    const dropdown = this.querySelector('.dropdown');
+    background.classList.add('open');
+    const dropdownCoords = dropdown.getBoundingClientRect();
+    const navCoords = nav.getBoundingClientRect();
+
+    const coords = {
+      width: dropdownCoords.width + 'px',
+      height: dropdownCoords.height + 'px',
+      top: (dropdownCoords.top - navCoords.top) + 'px',
+      left: (dropdownCoords.left - navCoords.left) + 'px'
+    };
+
+    console.log(dropdownCoords);
+    console.log(navCoords);
+
+    background.style.width = coords.width;
+    background.style.height = coords.height;
+    background.style.transform = `translate(${coords.left}, ${coords.top})`;
+  };
+
+  const handleMouseLeave = function(evt) {
+    this.classList.remove('trigger-enter', 'trigger-enter-active');
+    background.classList.remove('open');
+  };
+
+  triggers.forEach(triger => triger.addEventListener('mouseenter', handleMouseEnter));
+  triggers.forEach(triger => triger.addEventListener('mouseleave', handleMouseLeave));
 </script>
 
 </body>

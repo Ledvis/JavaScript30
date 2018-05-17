@@ -10,11 +10,28 @@
   <div class="wrapper">
     <video class="flex" width="765" height="430" src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" loop controls></video>
     <div class="speed">
-      <div class="speed-bar">1×</div>
+      <div class="speed-bar">1.0×</div>
     </div>
   </div>
 
 <script>
+  const speed = document.querySelector('.speed');
+  const bar = document.querySelector('.speed-bar');
+  const video = document.querySelector('.flex');
+
+  const handleMove = function(evt) {
+    const y = evt.pageY - this.offsetTop;
+    const percent = y / this.offsetHeight;
+    const height = Math.round(percent * 100) + '%';
+    const min = 0.4;
+    const max = 4;
+    const playBackRate = percent * (max - min) + min;
+    bar.style.height = height;
+    bar.textContent = playBackRate.toFixed(1) + '×';
+    video.playbackRate = playBackRate;
+  };
+
+  speed.addEventListener('mousemove', handleMove);
 </script>
 </body>
 </html>
